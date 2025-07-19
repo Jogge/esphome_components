@@ -1,7 +1,7 @@
 external_components:
   - source: 
       type: git
-      url: https://github.com/lskov/esphome_components
+      url: https://github.com/Jogge/esphome_components
       ref: main
     refresh: 0s
     components: [genvexv2]
@@ -162,7 +162,7 @@ sensor:
 
   - platform: modbus_controller
     modbus_controller_id: genvex_modbus_controller
-    name: "Genvex Inlet Fan"
+    name: "Genvex Inlet Fan RPM"
     id: genvex_inlet_fan_rpm
     icon: mdi:fan
     unit_of_measurement: "RPM"
