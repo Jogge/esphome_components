@@ -85,7 +85,7 @@ void Genvexv2Climate::control(const climate::ClimateCall& call) {
     fan_speed_number_->make_call().set_value(0).perform();//set(0);
   }
 
-  if (call.get_custom_fan_mode().has_value())
+  if (call.has_custom_fan_mode())
   {
     ESP_LOGD("TAG", "Fan mode changed to custom fan mode 1-4 from Home Assistant");
     const char *new_custom_fan_mode = call.get_custom_fan_mode();
@@ -96,7 +96,7 @@ void Genvexv2Climate::control(const climate::ClimateCall& call) {
     this->set_custom_fan_mode_(new_custom_fan_mode);
     this->fan_mode.reset();
 
-    auto optional_genvexv2_fan_mode = parse_number<float>(new_custom_fan_mode.c_str());
+    auto optional_genvexv2_fan_mode = parse_number<float>(new_custom_fan_mode);
     if(optional_genvexv2_fan_mode.has_value())
     {
       auto genvexv2_fan_mode = optional_genvexv2_fan_mode.value();
