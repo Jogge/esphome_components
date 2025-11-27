@@ -52,6 +52,11 @@ protected:
   //select::Select *mode_select_{ nullptr };
 
 private:
+  // Store our own custom fan mode string
+  const char* my_custom_fan_mode_ = nullptr;
+
+  // Override to provide our custom fan mode
+  const char* get_custom_fan_mode() const override { return my_custom_fan_mode_; }
 
   void genvexv2fanspeed_to_fanmode(const int state);
   int climatemode_to_genvexv2operationmode(const climate::ClimateMode mode);
