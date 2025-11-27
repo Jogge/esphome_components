@@ -48,7 +48,7 @@ void Genvexv2Climate::control(const climate::ClimateCall& call) {
       {
         ESP_LOGD("TAG", "Mode changed to OFF");
         this->fan_mode = climate::CLIMATE_FAN_OFF;
-        this->custom_fan_mode_ = nullptr;
+        this->my_custom_fan_mode_ = nullptr;
         ESP_LOGD(TAG, "Custom Fan mode set to: 0");
         fan_speed_number_->make_call().set_value(0).perform();//set(0);
         break;
@@ -56,7 +56,7 @@ void Genvexv2Climate::control(const climate::ClimateCall& call) {
       case climate::CLIMATE_MODE_HEAT_COOL:
       {
         ESP_LOGD("TAG", "Mode changed to HEAT_COOL");
-        this->custom_fan_mode_ = "2";
+        this->my_custom_fan_mode_ = "2";
         this->fan_mode.reset();
         auto optional_genvexv2_fan_mode = parse_number<float>("2");
         if(optional_genvexv2_fan_mode.has_value())
@@ -76,7 +76,7 @@ void Genvexv2Climate::control(const climate::ClimateCall& call) {
   {
     ESP_LOGD("TAG", "Fan mode changed to OFF from Home Assistant");
     auto new_fan_mode = *call.get_fan_mode();
-    this->custom_fan_mode_ = nullptr;
+    this->my_custom_fan_mode_ = nullptr;
     ESP_LOGD(TAG, "Fan mode set to: 0");
     fan_speed_number_->make_call().set_value(0).perform();//set(0);
   }
@@ -84,7 +84,7 @@ void Genvexv2Climate::control(const climate::ClimateCall& call) {
   const char *cfm = call.get_custom_fan_mode();
   if (cfm != nullptr) {
     ESP_LOGD("TAG", "Fan mode changed to custom fan mode 1-4 from Home Assistant");
-    this->custom_fan_mode_ = cfm;
+    this->my_custom_fan_mode_ = cfm;
     this->fan_mode.reset();
     auto optional_genvexv2_fan_mode = parse_number<float>(cfm);
     if (optional_genvexv2_fan_mode.has_value()) {
@@ -129,29 +129,29 @@ void Genvexv2Climate::genvexv2fanspeed_to_fanmode(const int state)
 {
   ESP_LOGD("TAG", "In genvexv2fanspeed_to_fanmode");
   ESP_LOGD("TAG", "State is %i", state);
-  this->custom_fan_mode_ = nullptr;
+  this->my_custom_fan_mode_ = nullptr;
   this->fan_mode.reset();
 
   switch (state) {
     case 1:
       ESP_LOGD("TAG", "Case 1");
       this->mode = climate::CLIMATE_MODE_HEAT_COOL;
-      this->custom_fan_mode_ = "1";
+      this->my_custom_fan_mode_ = "1";
       break;
     case 2:
       ESP_LOGD("TAG", "Case 2");
       this->mode = climate::CLIMATE_MODE_HEAT_COOL;
-      this->custom_fan_mode_ = "2";
+      this->my_custom_fan_mode_ = "2";
       break;
     case 3:
       ESP_LOGD("TAG", "Case 3");
       this->mode = climate::CLIMATE_MODE_HEAT_COOL;
-      this->custom_fan_mode_ = "3";
+      this->my_custom_fan_mode_ = "3";
       break;
     case 4:
       ESP_LOGD("TAG", "Case 4");
       this->mode = climate::CLIMATE_MODE_HEAT_COOL;
-      this->custom_fan_mode_ = "4";
+      this->my_custom_fan_mode_ = "4";
       break;
     case 0:
       ESP_LOGD("TAG", "Case 0");
