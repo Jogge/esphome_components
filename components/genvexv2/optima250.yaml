@@ -205,7 +205,7 @@ text_sensor:
     lambda: |-
       uint16_t int_mode = (data[item->offset] << 8) + data[item->offset+1];
       ESP_LOGD("main","Parsed operation mode int : %d", int_mode);
-      return int_mode;
+      return std::to_string(int_mode);
 
 number:
   - platform: modbus_controller
