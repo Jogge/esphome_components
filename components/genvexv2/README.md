@@ -23,11 +23,14 @@ uart:
 modbus:
     - id: genvex_modbus
       uart_id: uart_genvex
+      # Command spacing lives on the hub since ESPHome 2026.8 (was modbus_controller:
+      # command_throttle, which is now a no-op). Default is 600ms; lower it if polling
+      # the whole register set takes too long.
+      #turnaround_time: 100ms
  
 modbus_controller:
   id: genvex_modbus_controller
   address: 1
   modbus_id: genvex_modbus
   update_interval: 60s
-  command_throttle: 10ms
 ```
